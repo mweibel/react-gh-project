@@ -6,8 +6,12 @@ const Repository = ({ name, index, onClick, active = false, loading = false, iss
     {name}
     {active && (
       <ul>
-        {loading && <li>Loading</li>}
-        {issues.map(({ id, title, html_url }) => <li key={id}><a href={html_url}>{title}</a></li>)}
+        {loading ?
+          <li>Loading</li> :
+          issues.map(({ id, title, html_url }) =>
+            <li key={id}><a href={html_url}>{title}</a></li>
+          )
+        }
       </ul>
     )}
   </li>

@@ -1,6 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders without crashing 1`] = `
+exports[`does not render the issues if active is false 1`] = `
+<li
+  onClick={[Function]}
+>
+  test-repo
+</li>
+`;
+
+exports[`renders while loading 1`] = `
+<li
+  onClick={[Function]}
+>
+  test-repo
+  <ul>
+    <li>
+      Loading
+    </li>
+  </ul>
+</li>
+`;
+
+exports[`renders with a list of issues 1`] = `
+<li
+  onClick={[Function]}
+>
+  test-repo
+  <ul>
+    <li>
+      <a
+        href="https://example.org/testissue1"
+      >
+        testissue1
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://example.org/testissue2"
+      >
+        testissue2
+      </a>
+    </li>
+  </ul>
+</li>
+`;
+
+exports[`renders with minimal props 1`] = `
 <li
   onClick={[Function]}
 >
