@@ -15,6 +15,12 @@ $ npm install
 $ npm start 
 ```
 
+By default the app uses the real GitHub API during development. If you want to switch to using the mock API
+which uses fixtures located in the folder `src/api/__fixtures__` , create a file called `.env.development.local` with the following content:
+```
+REACT_APP_MOCK_API=true
+```
+
 ### Production
 To prepare for a production build, execute `npm run build`. 
 The `build/` directory contains all necessary files and is ready to be deployed.
