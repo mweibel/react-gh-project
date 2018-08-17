@@ -1,13 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Loading } from './Loading'
+import './Repository.css'
 
 const Repository = ({ name, index, onClick, active = false, loading = false, issues = []}) => (
-  <li onClick={(event) => onClick(event, index, name)}>
-    {name}
+  <li>
+    <button type="button" className="button button-clear button-link" onClick={(event) => onClick(event, index, name)}>{name}</button>
     {active && (
       <ul>
         {loading ?
-          <li>Loading</li> :
+          <li><Loading /></li> :
           issues.map(({ id, title, html_url }) =>
             <li key={id}><a href={html_url}>{title}</a></li>
           )

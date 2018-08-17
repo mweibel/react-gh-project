@@ -7,7 +7,10 @@ function determineFixture(method, path, qs) {
 
 export async function request(method, path, { qs } = {}) {
   try {
-    return determineFixture(method, path, qs);
+    return {
+      json: () => Promise.resolve(determineFixture(method, path, qs)),
+      headers: new Headers()
+    };
   } catch (e) {
     console.error(e)
     return Promise.reject(e)

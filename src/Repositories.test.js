@@ -45,7 +45,7 @@ it('toggles and loads the issues when clicking on one repo', async () => {
   await flushPromises()
 
   const target = {}
-  const event = { target, currentTarget: target }
+  const event = { target, currentTarget: target, preventDefault: jest.fn() }
   const index = 0
   const name = 'testrepo'
   wrapper.find(Repository).first().simulate('click', event, index, name);

@@ -1,31 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`does not render the issues if active is false 1`] = `
-<li
-  onClick={[Function]}
->
-  test-repo
+<li>
+  <button
+    className="button button-clear button-link"
+    onClick={[Function]}
+    type="button"
+  >
+    test-repo
+  </button>
 </li>
 `;
 
 exports[`renders while loading 1`] = `
-<li
-  onClick={[Function]}
->
-  test-repo
+<li>
+  <button
+    className="button button-clear button-link"
+    onClick={[Function]}
+    type="button"
+  >
+    test-repo
+  </button>
   <ul>
     <li>
-      Loading
+      <span>
+        Loading
+      </span>
     </li>
   </ul>
 </li>
 `;
 
 exports[`renders with a list of issues 1`] = `
-<li
-  onClick={[Function]}
->
-  test-repo
+<li>
+  <button
+    className="button button-clear button-link"
+    onClick={[Function]}
+    type="button"
+  >
+    test-repo
+  </button>
   <ul>
     <li>
       <a
@@ -46,9 +60,13 @@ exports[`renders with a list of issues 1`] = `
 `;
 
 exports[`renders with minimal props 1`] = `
-<li
-  onClick={[Function]}
->
-  test-repo
+<li>
+  <button
+    className="button button-clear button-link"
+    onClick={[Function]}
+    type="button"
+  >
+    test-repo
+  </button>
 </li>
 `;

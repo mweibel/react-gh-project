@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { getIssues, getRepos } from './api/github'
 import Repository from './Repository'
 import { immutableUpdateObjectInList } from './immutableHelpers'
+import { Loading } from './Loading'
 
 class Repositories extends Component {
   constructor (props) {
@@ -18,7 +19,7 @@ class Repositories extends Component {
   async componentDidMount() {
     const { organization } = this.props
     const { signal } = this.abortController
-    const response = await getRepos(organization, { signal })
+    const { repos } = await getRepos(organization, { signal })
 
     // if the component is in the process of being unmounted but the response
     // has already arrived, ensure it doesn't call `setState()`.
@@ -27,7 +28,7 @@ class Repositories extends Component {
     }
 
     this.setState({
-      repos: response,
+      repos,
       loading: false
     })
   }
@@ -51,6 +52,7 @@ class Repositories extends Component {
     if (event.target !== event.currentTarget) {
       return
     }
+    event.preventDefault()
 
     const { repos } = this.state
     const repo = repos[index]
@@ -83,11 +85,11 @@ class Repositories extends Component {
       repos: immutableUpdateObjectInList(repos, index, { loading: true, active: true })
     })
 
-    const response = await getIssues(organization, name, 'open')
+    const { issues } = await getIssues(organization, name, 'open')
     this.setState((state) => ({
       repos: immutableUpdateObjectInList(state.repos, index, {
         loading: false,
-        issues: response
+        issues
       })
     }))
   }
@@ -96,7 +98,7 @@ class Repositories extends Component {
     const { repos, loading } = this.state
 
     if (loading) {
-      return <div>Loading</div>
+      return <Loading />
     }
     if (!repos) {
       return null

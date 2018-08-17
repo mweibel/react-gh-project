@@ -4,7 +4,7 @@ import Repositories from './Repositories'
 class App extends Component {
   render() {
     return (
-      <div>
+      <div className="container">
         <Repositories organization='nodejs' />
       </div>
     );
