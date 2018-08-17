@@ -2,21 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getIssues, getRepos } from './api/github'
 import Repository from './Repository'
-
-function immutableUpdateObjectInList(list, index, obj) {
-  return [
-    ...list.slice(0, index),
-    {...list[index], ...obj},
-    ...list.slice(index + 1)
-  ]
-}
+import { immutableUpdateObjectInList } from './immutableHelpers'
 
 class Repositories extends Component {
   constructor (props) {
     super(props);
 
     this.state = {
-      repos: null,
+      repos: props.repos,
       loading: true
     };
     this.abortController = new window.AbortController();
@@ -24,9 +17,12 @@ class Repositories extends Component {
 
   async componentDidMount() {
     const { organization } = this.props
-    const response = await getRepos(organization, { signal: this.abortController.signal })
+    const { signal } = this.abortController
+    const response = await getRepos(organization, { signal })
 
-    if (this.abortController.signal.aborted) {
+    // if the component is in the process of being unmounted but the response
+    // has already arrived, ensure it doesn't call `setState()`.
+    if (signal.aborted) {
       return
     }
 
@@ -40,7 +36,18 @@ class Repositories extends Component {
     this.abortController.abort();
   }
 
+  /**
+   * Handles clicking on a repository.
+   *
+   * Either loads the list of issues, hides or shows the list of issues.
+   *
+   * @param {Event} event
+   * @param {Number} index
+   * @param {String} name
+   * @returns {*}
+   */
   handleClick(event, index, name) {
+    // prevent toggle of issue list when click happens the sub-ul
     if (event.target !== event.currentTarget) {
       return
     }
@@ -60,6 +67,15 @@ class Repositories extends Component {
     this.loadIssues(index, name)
   }
 
+  /**
+   * Loads a list of issues based on the organization and the repository name.
+   *
+   * Updates the component state in an immutable way,
+   * enabling future shouldComponentUpdate usage (e.g. by inheriting from PureComponent).
+   *
+   * @param {Number} index
+   * @param {String} name
+   */
   async loadIssues(index, name) {
     const { repos } = this.state
     const { organization } = this.props
