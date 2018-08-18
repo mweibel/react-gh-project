@@ -9,9 +9,7 @@ it('renders with minimal props', () => {
     onClick: jest.fn()
   };
 
-  const tree = renderer.create(
-    <Repository {...props} />
-  );
+  const tree = renderer.create(<Repository {...props} />);
   expect(tree).toMatchSnapshot();
 });
 
@@ -24,9 +22,7 @@ it('renders while loading', () => {
     loading: true
   };
 
-  const tree = renderer.create(
-    <Repository {...props} />
-  );
+  const tree = renderer.create(<Repository {...props} />);
   expect(tree).toMatchSnapshot();
 });
 
@@ -51,9 +47,7 @@ it('renders with a list of issues', () => {
     ]
   };
 
-  const tree = renderer.create(
-    <Repository {...props} />
-  );
+  const tree = renderer.create(<Repository {...props} />);
   expect(tree).toMatchSnapshot();
 });
 
@@ -78,8 +72,6 @@ it('does not render the issues if active is false', () => {
     ]
   };
 
-  const tree = renderer.create(
-    <Repository {...props} />
-  );
+  const tree = renderer.create(<Repository {...props} />);
   expect(tree).toMatchSnapshot();
 });

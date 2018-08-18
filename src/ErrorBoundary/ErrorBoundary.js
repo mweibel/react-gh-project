@@ -1,5 +1,5 @@
-import React, {Component, Fragment} from 'react';
-import ErrorFragment from './ErrorFragment'
+import React, { Component, Fragment } from 'react';
+import ErrorFragment from './ErrorFragment';
 import './ErrorBoundary.css';
 
 class ErrorBoundary extends Component {

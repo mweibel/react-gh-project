@@ -1,10 +1,11 @@
-# Technical Test Software Engineer MailOnline
+# GitHub: list of repositories with list of issues
 
 ## Guide
 
 This app has been bootstrapped using [create-react-app](https://github.com/facebookincubator/create-react-app).
 
 ### Installation & Run instructions
+
 First clone the code to your local machine.
 
 ```bash
@@ -12,20 +13,23 @@ First clone the code to your local machine.
 $ npm install
 
 # Start local dev server
-$ npm start 
+$ npm start
 ```
 
 By default the app uses the real GitHub API during development. If you want to switch to using the mock API
 which uses fixtures located in the folder `src/api/__fixtures__` , create a file called `.env.development.local` with the following content:
+
 ```
 REACT_APP_MOCK_API=true
 ```
 
 ### Production
-To prepare for a production build, execute `npm run build`. 
+
+To prepare for a production build, execute `npm run build`.
 The `build/` directory contains all necessary files and is ready to be deployed.
 
 You can also serve it with a static server:
+
 ```
 # auto install npm package `serve` and start it based on the build/ directory.
 $ npx serve -s build
@@ -40,13 +44,14 @@ The goal of this task is to create an application consisting of:
 #### Client-side
 
 A client-side single-page application which must connect to the github API endpoint (see below) to:
-  - List the repositories from the `nodejs` organisation, showing the name of each
-  - When clicking on a repository, expand and make a request to get the open issues from that repository
-  - Once the issues from the repository are retrieved, show them under the repo as nested items, by title
-  - Have an intermediate loading state (show "loading..." as the only item during this process)
-  - Handle errors while requesting the API by logging to the console
-  - A simple ul-li structure is fine, no styling necessary
-  - Only request issues once per repository
+
+- List the repositories from the `nodejs` organisation, showing the name of each
+- When clicking on a repository, expand and make a request to get the open issues from that repository
+- Once the issues from the repository are retrieved, show them under the repo as nested items, by title
+- Have an intermediate loading state (show "loading..." as the only item during this process)
+- Handle errors while requesting the API by logging to the console
+- A simple ul-li structure is fine, no styling necessary
+- Only request issues once per repository
 
 Github API:
 
@@ -58,8 +63,8 @@ Get open issues by repository:
 
 Example states:
 
-
 First load of the app, while requesting the repos:
+
 ```html
 <ul>
   <li>loading...</li>

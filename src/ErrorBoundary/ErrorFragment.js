@@ -11,7 +11,7 @@ const ErrorFragment = ({ error, errorInfo = null }) => (
       {errorInfo !== null && errorInfo.componentStack}
     </details>
   </Fragment>
-)
+);
 ErrorFragment.propTypes = {
   error: PropTypes.shape({
     toString: PropTypes.func.isRequired
@@ -19,5 +19,5 @@ ErrorFragment.propTypes = {
   errorInfo: PropTypes.shape({
     componentStack: PropTypes.string.isRequired
   })
-}
+};
 export default ErrorFragment;

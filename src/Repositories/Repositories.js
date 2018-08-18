@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getIssues, getRepos } from '../api/github'
-import Repository from '../Repository/Repository'
-import { immutableUpdateObjectInList } from '../immutableHelpers'
-import { Loading } from '../Loading/Loading'
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import ErrorFragment from '../ErrorBoundary/ErrorFragment'
+import { getIssues, getRepos } from '../api/github';
+import Repository from '../Repository/Repository';
+import { immutableUpdateObjectInList } from '../immutableHelpers';
+import { Loading } from '../Loading/Loading';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import ErrorFragment from '../ErrorBoundary/ErrorFragment';
 
 class Repositories extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -20,26 +20,26 @@ class Repositories extends Component {
   }
 
   async componentDidMount() {
-    const { organization } = this.props
-    const { signal } = this.abortController
+    const { organization } = this.props;
+    const { signal } = this.abortController;
     try {
-      const { repos } = await getRepos(organization, { signal })
+      const { repos } = await getRepos(organization, { signal });
 
       // if the component is in the process of being unmounted but the response
       // has already arrived, ensure it doesn't call `setState()`.
       if (signal.aborted) {
-        return
+        return;
       }
 
       this.setState({
         repos,
         loading: false
-      })
-    } catch(error) {
+      });
+    } catch (error) {
       this.setState({
         loading: false,
         error
-      })
+      });
     }
   }
 
@@ -60,23 +60,23 @@ class Repositories extends Component {
   handleClick(event, index, name) {
     // prevent toggle of issue list when click happens the sub-ul
     if (event.target !== event.currentTarget) {
-      return
+      return;
     }
-    event.preventDefault()
+    event.preventDefault();
 
-    const { repos } = this.state
-    const repo = repos[index]
+    const { repos } = this.state;
+    const repo = repos[index];
     if (repo.active) {
       return this.setState({
         repos: immutableUpdateObjectInList(repos, index, { active: false })
-      })
+      });
     }
     if (repo.issues) {
       return this.setState({
         repos: immutableUpdateObjectInList(repos, index, { active: true })
-      })
+      });
     }
-    this.loadIssues(index, name)
+    this.loadIssues(index, name);
   }
 
   /**
@@ -89,38 +89,41 @@ class Repositories extends Component {
    * @param {String} name
    */
   async loadIssues(index, name) {
-    const { repos } = this.state
-    const { organization } = this.props
+    const { repos } = this.state;
+    const { organization } = this.props;
     this.setState({
-      repos: immutableUpdateObjectInList(repos, index, { loading: true, active: true })
-    })
+      repos: immutableUpdateObjectInList(repos, index, {
+        loading: true,
+        active: true
+      })
+    });
 
     try {
-      const { issues } = await getIssues(organization, name, 'open')
-      this.setState((state) => ({
+      const { issues } = await getIssues(organization, name, 'open');
+      this.setState(state => ({
         repos: immutableUpdateObjectInList(state.repos, index, {
           loading: false,
           issues
         })
-      }))
-    } catch(error) {
+      }));
+    } catch (error) {
       this.setState({
         error
-      })
+      });
     }
   }
 
   render() {
-    const { repos, loading, error } = this.state
+    const { repos, loading, error } = this.state;
 
     if (loading) {
-      return <Loading />
+      return <Loading />;
     }
     if (!repos) {
-      return null
+      return null;
     }
     if (error) {
-      return <ErrorFragment error={error} />
+      return <ErrorFragment error={error} />;
     }
 
     return (
@@ -132,7 +135,9 @@ class Repositories extends Component {
                 key={repo.id}
                 index={index}
                 {...repo}
-                onClick={(event, index, name) => this.handleClick(event, index, name)}
+                onClick={(event, index, name) =>
+                  this.handleClick(event, index, name)
+                }
               />
             </ErrorBoundary>
           </li>
@@ -143,6 +148,6 @@ class Repositories extends Component {
 }
 Repositories.propTypes = {
   organization: PropTypes.string.isRequired
-}
+};
 
 export default Repositories;

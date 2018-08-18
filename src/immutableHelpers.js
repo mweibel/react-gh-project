@@ -10,7 +10,7 @@
 export function immutableUpdateObjectInList(list, index, obj) {
   return [
     ...list.slice(0, index),
-    {...list[index], ...obj},
+    { ...list[index], ...obj },
     ...list.slice(index + 1)
-  ]
+  ];
 }
