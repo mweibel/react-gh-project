@@ -2,8 +2,8 @@ import React from 'react';
 import Repositories from './Repositories';
 import renderer from 'react-test-renderer';
 import { shallow } from 'enzyme'
-import Repository from './Repository'
-import { flushPromises } from './testutils'
+import Repository from '../Repository/Repository'
+import { flushPromises } from '../testutils'
 
 
 it('renders with minimal props', () => {

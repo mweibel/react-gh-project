@@ -22,10 +22,6 @@ export async function request(method, path, { qs = null, headers = defaultHeader
       return Promise.reject({ error: response.statusText, status: response.status })
     }
 
-    for (const entry of response.headers) {
-      console.log(entry)
-    }
-
     return response;
   } catch (e) {
     console.error(e)

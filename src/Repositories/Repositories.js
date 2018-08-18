@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getIssues, getRepos } from './api/github'
-import Repository from './Repository'
-import { immutableUpdateObjectInList } from './immutableHelpers'
-import { Loading } from './Loading'
+import { getIssues, getRepos } from '../api/github'
+import Repository from '../Repository/Repository'
+import { immutableUpdateObjectInList } from '../immutableHelpers'
+import { Loading } from '../Loading/Loading'
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import ErrorFragment from '../ErrorBoundary/ErrorFragment'
 
 class Repositories extends Component {
   constructor (props) {
@@ -11,7 +13,8 @@ class Repositories extends Component {
 
     this.state = {
       repos: props.repos,
-      loading: true
+      loading: true,
+      error: null
     };
     this.abortController = new window.AbortController();
   }
@@ -19,18 +22,25 @@ class Repositories extends Component {
   async componentDidMount() {
     const { organization } = this.props
     const { signal } = this.abortController
-    const { repos } = await getRepos(organization, { signal })
+    try {
+      const { repos } = await getRepos(organization, { signal })
 
-    // if the component is in the process of being unmounted but the response
-    // has already arrived, ensure it doesn't call `setState()`.
-    if (signal.aborted) {
-      return
+      // if the component is in the process of being unmounted but the response
+      // has already arrived, ensure it doesn't call `setState()`.
+      if (signal.aborted) {
+        return
+      }
+
+      this.setState({
+        repos,
+        loading: false
+      })
+    } catch(error) {
+      this.setState({
+        loading: false,
+        error
+      })
     }
-
-    this.setState({
-      repos,
-      loading: false
-    })
   }
 
   componentWillUnmount() {
@@ -85,17 +95,23 @@ class Repositories extends Component {
       repos: immutableUpdateObjectInList(repos, index, { loading: true, active: true })
     })
 
-    const { issues } = await getIssues(organization, name, 'open')
-    this.setState((state) => ({
-      repos: immutableUpdateObjectInList(state.repos, index, {
-        loading: false,
-        issues
+    try {
+      const { issues } = await getIssues(organization, name, 'open')
+      this.setState((state) => ({
+        repos: immutableUpdateObjectInList(state.repos, index, {
+          loading: false,
+          issues
+        })
+      }))
+    } catch(error) {
+      this.setState({
+        error
       })
-    }))
+    }
   }
 
   render() {
-    const { repos, loading } = this.state
+    const { repos, loading, error } = this.state
 
     if (loading) {
       return <Loading />
@@ -103,16 +119,23 @@ class Repositories extends Component {
     if (!repos) {
       return null
     }
+    if (error) {
+      return <ErrorFragment error={error} />
+    }
 
     return (
       <ul>
         {repos.map((repo, index) => (
-          <Repository
-            key={repo.id}
-            index={index}
-            {...repo}
-            onClick={(event, index, name) => this.handleClick(event, index, name)}
-          />
+          <li key={repo.id}>
+            <ErrorBoundary>
+              <Repository
+                key={repo.id}
+                index={index}
+                {...repo}
+                onClick={(event, index, name) => this.handleClick(event, index, name)}
+              />
+            </ErrorBoundary>
+          </li>
         ))}
       </ul>
     );
