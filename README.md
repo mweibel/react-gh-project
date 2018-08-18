@@ -3,6 +3,7 @@
 ## Guide
 
 This app has been bootstrapped using [create-react-app](https://github.com/facebookincubator/create-react-app).
+It's automaticly built, tested and deployed using travis-ci and github pages. Accessible on https://mweibel.github.io/react-gh-project/.
 
 ### Installation & Run instructions
 
