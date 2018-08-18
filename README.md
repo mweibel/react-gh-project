@@ -24,6 +24,8 @@ which uses fixtures located in the folder `src/api/__fixtures__` , create a file
 REACT_APP_MOCK_API=true
 ```
 
+Before contributing code, please ensure you run `npm run lint` on the code.
+
 ### Production
 
 To prepare for a production build, execute `npm run build`.
