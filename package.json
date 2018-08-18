@@ -19,6 +19,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "prettier --single-quote --write '{*.md,*.json,src/**/*.js}'"
+    "lint": "prettier --single-quote --write '{*.md,*.json,*.yml,src/**/*.js}'"
   }
 }
